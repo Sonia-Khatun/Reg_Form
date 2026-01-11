@@ -9,9 +9,9 @@ export default function Register() {
     password: "",
   });
   const [loginData, setloginData] = useState({
-   email: "",
-   password: "" 
-  })
+    email: "",
+    password: "",
+  });
 
   const [data, setdata] = useState([]);
   const [activeForm, setactiveForm] = useState("register");
@@ -24,46 +24,52 @@ export default function Register() {
       [name]: value,
     });
   };
-  const loginChange = (e) =>{
+  const loginChange = (e) => {
     const { name, value } = e.target;
     setloginData({
       ...loginData,
       [name]: value,
-    })
+    });
   };
-  const handleLogin = async (e) =>{
-   e.preventDefault();
-   
-   console.log(loginData);
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-   try{
-    const res =await axios.get("http://localhost:3000/users")
-    const users = res.data;
+    console.log(loginData);
 
-   if(!Array.isArray(users) && users.length > 0){
-    alert("User not found")
-   }
+    try {
+      const res = await axios.get("http://localhost:3000/users");
+      const users = res.data;
 
-    // users.filter(() =>{
+     if(users.length === 0){
+      alert("No users found");
+      return;
+     }
 
-    // })
+      const validUser = users.find(user =>
+       user.email === loginData.email && user.password === loginData.password
+      )
+      if(validUser){
+        alert("Login Successfull");
+         navigate("/products");
+      }else{
+        alert("Invalid email or password");
+      }
+    } catch (error) {
+      alert(error);
+    }
 
-   }catch(error){
-   alert(error)
-   }
-   
-   setloginData({
-    email: "",
-    password: ""
-   })
-  }
+    setloginData({
+      email: "",
+      password: "",
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
+    try {
       await axios.post("http://localhost:3000/users", formData);
       alert("Data Saved successfully");
-    }catch(error){
-     alert(error)
+    } catch (error) {
+      alert(error);
     }
     // console.log(formData);
 
@@ -90,132 +96,116 @@ export default function Register() {
   };
   return (
     <>
-      <div className="h-screen w-full bg-blue-300 ">
-        <div className="flex items-center justify-center py-3">
-          <div className="w-87 h-14 bg-blue-200 flex items-center justify-between rounded-md px-3">
-            <button className="w-42 px-3 py-2 cursor-pointer transition duration-600 ease-in-out hover:bg-blue-600 bg-blue-200 text-black font-bold hover:text-white rounded-3xl"
-            onClick={()=>{
-              setactiveForm("register")
-            }}>
+      <div className="h-screen w-full bg-blue-300 flex items-center justify-center">
+        <div className="w-96 bg-blue-200 rounded-xl py-10 px-8">
+          <div className="flex justify-between mb-6 bg-blue-300 rounded-full">
+            <button
+              className={`w-1/2 py-2.5 rounded-full text-[17px] hover:bg-blue-500 hover:text-white font-bold transition duration-400 ease-in-out cursor-pointer ${
+                activeForm === "register" ? "bg-blue-600 text-white" : "text-black"
+              }`}
+              onClick={() => setactiveForm("register")}
+            >
               Register
-              </button>
-            <button className="w-42 px-3 py-2 cursor-pointer transition duration-600 ease-in-out hover:bg-blue-600 bg-blue-200 text-black font-bold hover:text-white rounded-3xl"
-            onClick={() =>{
-              setactiveForm("login")
-            }}>
-            Login
+            </button>
+
+            <button
+              className={`w-1/2 py-2.5 rounded-full font-bold text-[17px] hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out cursor-pointer ${
+                activeForm === "login" ? "bg-blue-600 text-white" : "text-black"
+              }`}
+              onClick={() => setactiveForm("login")}
+            >
+              Login
             </button>
           </div>
-        </div>
 
-        <div className="flex items-center justify-center">
-          {activeForm === "register" &&(
-            
-          <form
-            onSubmit={(e) => handleSubmit(e)}
-            className="h-110 w-87 bg-blue-200 rounded-xl px-6 py-8"
-          >
-            <div className="flex flex-col gap-1 mb-4">
-              <label htmlFor="name" className="text-gray-800 font-bold">
+          {activeForm === "register" && (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <label htmlFor="" className="text-gray-800 font-bold">
                 Name:
               </label>
               <input
-                className="border rounded-md px-1 h-9 border-gray-600 focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="text"
                 name="name"
-                required
                 placeholder="Enter Your Name"
                 value={formData.name}
                 onChange={handleChange}
+                required
               />
-            </div>
-            <div className="flex flex-col gap-1 mb-4">
-              <label htmlFor="emailId" className="text-gray-800 font-bold">
+              <label htmlFor="" className="text-gray-800 font-bold">
                 Email:
               </label>
               <input
-                className="border rounded-md px-1 h-9 border-gray-600 focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="email"
                 name="email"
-                required
                 placeholder="Enter Your Email"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
-            </div>
-            <div className="flex flex-col gap-1 mb-4">
-              <label htmlFor="phoneNo" className="text-gray-800 font-bold">
+              <label htmlFor="" className="text-gray-800 font-bold">
                 Phone No:
               </label>
               <input
-                className="border px-1 rounded-md h-9 border-gray-600 focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="tel"
                 name="phoneNo"
-                required
                 placeholder="Enter Your Phone No"
                 value={formData.phoneNo}
                 onChange={handleChange}
+                required
               />
-            </div>
-            <div className="flex flex-col gap-1 mb-6">
-              <label htmlFor="password" className="text-gray-800 font-bold">
+              <label htmlFor="" className="text-gray-800 font-bold">
                 Password:
               </label>
               <input
-                className="border px-1 h-9 border-gray-600 rounded-md focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="password"
                 name="password"
-                required
                 placeholder="Enter Your Password"
                 value={formData.password}
                 onChange={handleChange}
+                required
               />
-            </div>
 
-            <button className="w-full py-2 cursor-pointer hover:bg-blue-500 bg-blue-600 text-white font-bold rounded-md">
-              Register
-            </button>
-          </form>
+              <button className="w-full bg-blue-600 text-white py-2.5 text-[17px] cursor-pointer hover:bg-blue-500 rounded-md font-bold">
+                Register
+              </button>
+            </form>
           )}
-        </div>
-        <div className="flex items-center justify-center mt-5">
+
           {activeForm === "login" && (
-          <form onSubmit={(e) =>{handleLogin(e)}}
-            action=""
-            className="h-68 w-87 bg-blue-200 rounded-md px-6 py-8"
-          >
-            <div className="flex flex-col gap-1 mb-4">
+            <form onSubmit={handleLogin} className="space-y-4">
               <label htmlFor="" className="text-gray-800 font-bold">
                 Email:
               </label>
               <input
-                className="border px-1 h-9 border-gray-600 rounded-md focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="email"
                 name="email"
-                placeholder="Enter Your email"
-                required
+                placeholder="Enter Your Email"
                 value={loginData.email}
                 onChange={loginChange}
+                required
               />
-            </div>
-            <div className="flex flex-col gap-1 mb-6">
               <label htmlFor="" className="text-gray-800 font-bold">
                 Password:
               </label>
               <input
-                className="border px-1 h-9 border-gray-600 rounded-md focus:outline-none focus:border-blue-400"
+                className="w-full border px-2 py-2.5 rounded"
                 type="password"
                 name="password"
                 placeholder="Enter Your Password"
-                required
                 value={loginData.password}
                 onChange={loginChange}
+                required
               />
-            </div>
-            <button className="w-full py-2 cursor-pointer hover:bg-blue-500 bg-blue-600 text-white font-bold rounded-md">
-              Log in
-            </button>
-          </form>
+
+              <button className="w-full bg-blue-600 hover:bg-blue-500 text-white text-[17px] cursor-pointer py-2.5 rounded-md font-bold">
+                Login
+              </button>
+            </form>
           )}
         </div>
       </div>
