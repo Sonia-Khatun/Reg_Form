@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setformData] = useState({
@@ -12,6 +13,7 @@ export default function Register() {
     email: "",
     password: "",
   });
+  let navigate = useNavigate();
 
   const [data, setdata] = useState([]);
   const [activeForm, setactiveForm] = useState("register");
@@ -124,7 +126,7 @@ export default function Register() {
                 Name:
               </label>
               <input
-                className="w-full border px-2 py-2.5 rounded"
+                className="w-full border px-2 py-2.5 rounded "
                 type="text"
                 name="name"
                 placeholder="Enter Your Name"
