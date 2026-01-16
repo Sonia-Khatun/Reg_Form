@@ -1,10 +1,17 @@
 import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
-import { FaStar } from "react-icons/fa6";
+import { useState, useEffect } from "react";
+import { FaStar, FaCartPlus } from "react-icons/fa6";
+import { CgProfile } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
+
+  const [cartCount, setcartCount] = useState(0);
+
+  const AddtoCart = () => {
+    setcartCount(cartCount + 1);
+  };
 
   const getProducts = async () => {
     const res = await axios.get("https://fakestoreapi.com/products");
@@ -16,19 +23,45 @@ export default function Products() {
   }, []);
 
   return (
-    <div className="w-full bg-blue-300 p-5">
-      <h2 className="flex justify-center items-center text-3xl font-bold mb-6">
-        Products
-      </h2>
-      <div className="grid grid-cols-4 gap-6 px-5">
+    <div className="w-full bg-blue-300">
+      <div className="w-full bg-gray-800 px-4 py-4">
+        <div className="flex justify-between">
+          <div>
+            <h2 className="text-white font-bold">PRO <span className="text-blue-600">DUCTS</span></h2>
+          </div>
+          <div className="flex justify-center items-center gap-4">
+            <div className="flex justify-end">
+              <div>
+                <FaCartPlus className=" relative text-[28px] text-blue-500" />
+              </div>
+              {cartCount > 0 && (
+                <div className="h-4 w-4 absolute flex justify-center items-center rounded-full text-[12px] font-bold bg-white text-blue-600">
+                  {cartCount}
+                </div>
+              )}
+            </div>
+            <div>
+              <CgProfile className="text-[28px] text-blue-500" />
+            </div>
+            <Link to="/">
+              <div>
+                <button className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
+                  Log Out
+                </button>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-4 gap-6 px-5 py-8">
         {products.map((product) => (
           <div
             key={product.id}
             className="
-          bg-white border border-gray-400 rounded-lg hover:shadow-xl hover:-translate-y-1 transition-all p-4"
+          bg-white border border-gray-200 rounded-lg hover:shadow-xl hover:-translate-y-1 transition-all p-4"
           >
             <div className="h-48 flex justify-center items-center bg-gray-50 mb-3">
-              <img src={product.image} className="h-full object-contain" />
+              <img src={product.image} className="h-full" />
             </div>
 
             <h3 className="font-semibold text-lg mb-1 line-clamp-1">
@@ -44,18 +77,20 @@ export default function Products() {
               <div className="text-xs text-gray-500 mb-3 capitalize">
                 <p>{product.category}</p>
               </div>
-              
+
               <div className="flex items-center text-[13px] text-gray-500 mb-2 justify-end">
-              <p>{product.rating.rate}</p>
-              <p>
-                <FaStar />
-              </p>
-              <p>{product.rating.count}</p>
-            </div>
+                <p>{product.rating.rate}</p>
+                <p>
+                  <FaStar />
+                </p>
+                <p>{product.rating.count}</p>
+              </div>
             </div>
 
-           
-            <button className="w-full text-white bg-blue-500 hover:bg-blue-400 rounded-md py-2 font-medium hover:opacity-90 transition">
+            <button
+              onClick={AddtoCart}
+              className="w-full text-white bg-blue-500 hover:bg-blue-400 rounded-md py-2 font-medium hover:opacity-90 transition"
+            >
               Add to Cart
             </button>
           </div>
