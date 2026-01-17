@@ -1,11 +1,12 @@
 {
   "users": [
     {
-      "id": "2c4f",
-      "name": "sonia",
-      "email": "s@gmail.com",
-      "phoneNo": "3456897650",
-      "password": "s@12"
+      "id": "5ea1",
+      "name": "Sonia",
+      "email": "sonia@gmail.com",
+      "phoneNo": "54353463656",
+      "password": "s#12",
+      "cart": []
     }
   ]
 }

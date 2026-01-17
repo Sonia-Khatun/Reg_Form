@@ -51,6 +51,7 @@ export default function Register() {
        user.email === loginData.email && user.password === loginData.password
       )
       if(validUser){
+        localStorage.setItem("user",JSON.stringify(validUser))
         alert("Login Successfull");
          navigate("/products");
       }else{
@@ -68,7 +69,12 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/users", formData);
+
+    const newUser = {
+      ...formData,
+      cart: []
+    }
+    await axios.post("http://localhost:3000/users", newUser);
       alert("Data Saved successfully");
     } catch (error) {
       alert(error);

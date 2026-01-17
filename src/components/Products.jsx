@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FaStar, FaCartPlus } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -88,7 +89,7 @@ export default function Products() {
             </div>
 
             <button
-              onClick={AddtoCart}
+              onClick={() => AddtoCart(product)}
               className="w-full text-white bg-blue-500 hover:bg-blue-400 rounded-md py-2 font-medium hover:opacity-90 transition"
             >
               Add to Cart
