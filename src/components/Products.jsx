@@ -2,17 +2,24 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaStar, FaCartPlus } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
 
-  const [cartCount, setcartCount] = useState(0);
+  // const [cartCount, setcartCount] = useState(0);
 
-  const AddtoCart = () => {
-    setcartCount(cartCount + 1);
-  };
+  // const AddtoCart = () => {
+  //   setcartCount(cartCount + 1);
+  // };
+  const { addToCart, cart } = useCart();
+  let totalItems = 0;
+
+  cart.forEach(item => {
+  totalItems = totalItems + item.quantity;
+ });
+
 
   const getProducts = async () => {
     const res = await axios.get("https://fakestoreapi.com/products");
@@ -23,34 +30,41 @@ export default function Products() {
     getProducts();
   }, []);
 
+  const navigate = useNavigate(); 
+  const productLogOut = () => {
+    localStorage.removeItem("user");
+    navigate("/")
+  }
   return (
     <div className="w-full bg-blue-300">
       <div className="w-full bg-gray-800 px-4 py-4">
         <div className="flex justify-between">
           <div>
-            <h2 className="text-white font-bold">PRO <span className="text-blue-600">DUCTS</span></h2>
+            <h2 className="text-white font-bold">PRO<span className="text-blue-600">DUCTS</span></h2>
           </div>
           <div className="flex justify-center items-center gap-4">
             <div className="flex justify-end">
               <div>
+                <Link to ="/cart">
                 <FaCartPlus className=" relative text-[28px] text-blue-500" />
+                </Link>
+                
               </div>
-              {cartCount > 0 && (
+              {totalItems > 0 && (
                 <div className="h-4 w-4 absolute flex justify-center items-center rounded-full text-[12px] font-bold bg-white text-blue-600">
-                  {cartCount}
+                  {totalItems}
                 </div>
               )}
             </div>
             <div>
               <CgProfile className="text-[28px] text-blue-500" />
             </div>
-            <Link to="/">
-              <div>
-                <button className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
+
+                <button onClick={productLogOut} className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
                   Log Out
-                </button>
-              </div>
-            </Link>
+                </button> 
+              
+            
           </div>
         </div>
       </div>
@@ -69,7 +83,7 @@ export default function Products() {
               {product.title}
             </h3>
 
-            <p className="text-blue-600 font-bold mb-1">₹ {product.price}</p>
+            <p className="text-blue-600 font-bold mb-1">$ {product.price}</p>
 
             <p className="text-sm text-gray-600 mb-2 line-clamp-2">
               {product.description}
@@ -89,7 +103,7 @@ export default function Products() {
             </div>
 
             <button
-              onClick={() => AddtoCart(product)}
+              onClick={() => addToCart(product)}
               className="w-full text-white bg-blue-500 hover:bg-blue-400 rounded-md py-2 font-medium hover:opacity-90 transition"
             >
               Add to Cart

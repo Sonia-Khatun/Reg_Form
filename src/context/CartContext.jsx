@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
 
- const loadCart =async () => {
+ const loadCart =async () => { 
     if(!user) return;
 
     try {
