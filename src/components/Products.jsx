@@ -8,11 +8,6 @@ import { useCart } from "../context/CartContext";
 export default function Products() {
   const [products, setProducts] = useState([]);
 
-  // const [cartCount, setcartCount] = useState(0);
-
-  // const AddtoCart = () => {
-  //   setcartCount(cartCount + 1);
-  // };
   const { addToCart, cart } = useCart();
   let totalItems = 0;
 
@@ -59,13 +54,10 @@ export default function Products() {
             <div>
               <CgProfile className="text-[28px] text-blue-500" />
             </div>
-
-                <button onClick={productLogOut} className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
+               <button onClick={productLogOut} className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
                   Log Out
                 </button> 
-              
-            
-          </div>
+            </div>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-6 px-5 py-8">

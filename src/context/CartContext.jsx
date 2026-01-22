@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
 
- const loadCart =async () => { 
+ const loadCart = async () => { 
     if(!user) return;
 
     try {
@@ -19,6 +19,7 @@ export const CartProvider = ({ children }) => {
       console.log(error)  
     }
   }
+
   useEffect(() => {
    loadCart();
   }, [])
@@ -52,8 +53,40 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const increaseQuantity = async (id) => {
+    const updatedIncQuantity = cart.map(item => item.id === id ? {...item, quantity: item.quantity + 1} : item);
+
+    await axios.patch(`http://localhost:3000/users/${user.id}`,
+      { cart: updatedIncQuantity }
+    )
+    setCart(updatedIncQuantity)
+  }
+
+  const decreaseQuantity = async (id) =>{
+    const updatedDecQuantity = cart.map(item => item.id === id ? {...item, quantity: item.quantity - 1} : item);
+
+    await axios.patch(`http://localhost:3000/users/${user.id}`,
+      { cart: updatedDecQuantity }
+    )
+    setCart(updatedDecQuantity)
+  }
+
+  const deleteItem = async (id) =>{
+    if (!user) return
+    try{
+      const removeCart = cart.filter(item => item.id !== id)
+      await axios.patch(`http://localhost:3000/users/${user.id}`,
+        {cart: removeCart }
+      )
+      setCart(removeCart)
+    }catch(error){
+     alert(error)
+    }
+    
+  }
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, increaseQuantity, decreaseQuantity, deleteItem }}>
       {children}
     </CartContext.Provider>
   );
