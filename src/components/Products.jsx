@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 export default function Products() {
   const [products, setProducts] = useState([]);
 
+  const { setCart, setUser } = useCart();
   const { addToCart, cart } = useCart();
   let totalItems = 0;
 
@@ -27,7 +28,9 @@ export default function Products() {
   const navigate = useNavigate();
   const productLogOut = () => {
     localStorage.removeItem("user");
-    navigate("/");
+    setUser(null);
+    setCart([]);
+    navigate("/", { replace: true });
   };
   const handleSort = (e) => {
   const value = e.target.value;

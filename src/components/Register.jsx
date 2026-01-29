@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+
 
 export default function Register() {
   const [formData, setformData] = useState({
@@ -26,6 +28,7 @@ export default function Register() {
       [name]: value,
     });
   };
+  
   const loginChange = (e) => {
     const { name, value } = e.target;
     setloginData({
@@ -33,6 +36,7 @@ export default function Register() {
       [name]: value,
     });
   };
+  const { setUser } = useCart();
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -53,7 +57,8 @@ export default function Register() {
       if(validUser){
         localStorage.setItem("user",JSON.stringify(validUser))
         alert("Login Successfull");
-         navigate("/products");
+         setUser(validUser);
+          navigate("/products", { replace: true });
       }else{
         alert("Invalid email or password");
       }

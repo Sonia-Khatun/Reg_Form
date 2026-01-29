@@ -4,9 +4,9 @@ import axios from "axios";
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const [cart, setCart] = useState([]);
+   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
+    const [cart, setCart] = useState([]);
 
  const loadCart = async () => { 
     if(!user) return;
@@ -20,9 +20,15 @@ export const CartProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-   loadCart();
-  }, [user])
+ useEffect(() => {
+  if (!user) {
+    setCart([]);
+    return;
+  }
+
+  loadCart();
+}, [user]);
+
  
   const addToCart = async (product) => {
     if (!user) {
@@ -86,8 +92,17 @@ export const CartProvider = ({ children }) => {
   }
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, increaseQuantity, decreaseQuantity, deleteItem }}>
-      {children}
+   <CartContext.Provider
+  value={{
+    cart,
+    setCart,
+    setUser,   
+    addToCart,
+    increaseQuantity,
+    decreaseQuantity,
+    deleteItem
+  }}
+>
     </CartContext.Provider>
   );
 };
