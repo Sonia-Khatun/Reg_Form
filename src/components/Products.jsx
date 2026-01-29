@@ -11,10 +11,9 @@ export default function Products() {
   const { addToCart, cart } = useCart();
   let totalItems = 0;
 
-  cart.forEach(item => {
-  totalItems = totalItems + item.quantity;
- });
-
+  cart.forEach((item) => {
+    totalItems = totalItems + item.quantity;
+  });
 
   const getProducts = async () => {
     const res = await axios.get("https://fakestoreapi.com/products");
@@ -22,28 +21,60 @@ export default function Products() {
   };
 
   useEffect(() => {
-    getProducts();
+    getProducts();   
   }, []);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const productLogOut = () => {
     localStorage.removeItem("user");
-    navigate("/")
+    navigate("/");
+  };
+  const handleSort = (e) => {
+  const value = e.target.value;
+
+  const sortedProducts = [...products];
+
+  if(value === "low-high"){
+    sortedProducts.sort((a,b) => a.price - b.price )
+  }
+  if(value === "high-low"){
+    sortedProducts.sort((a,b) => b.price - a.price)
+  }
+  if(value === "popularity"){
+  sortedProducts.sort((a, b) => {
+  const valueA = (a.rating.count / a.rating.rate) % 100;
+  const valueB = (b.rating.count / b.rating.rate) % 100;
+  return valueB - valueA; 
+  
+});
+}
+
+  setProducts(sortedProducts)
   }
   return (
     <div className="w-full bg-blue-300">
       <div className="w-full bg-gray-800 px-4 py-4">
         <div className="flex justify-between">
           <div>
-            <h2 className="text-white font-bold">PRO<span className="text-blue-600">DUCTS</span></h2>
+            <h2 className="text-white font-bold">
+              PRO<span className="text-blue-600">DUCTS</span>
+            </h2>
           </div>
-          <div className="flex justify-center items-center gap-4">
+
+          <div className="flex justify-center items-center gap-5">
+            <div>
+              <select onChange={handleSort} defaultValue="" className="px-5 py-2 rounded-md bg-blue-500 text-white focus:outline-none font-bold">
+                <option value="" disabled>Sort by : </option>
+                <option value="low-high">Low to High Price</option>
+                <option value="high-low">High to low Price</option>
+                <option value="popularity">Popularity</option>
+              </select>
+            </div>
             <div className="flex justify-end">
               <div>
-                <Link to ="/cart">
-                <FaCartPlus className=" relative text-[28px] text-blue-500" />
+                <Link to="/cart">
+                  <FaCartPlus className="relative text-[28px] text-blue-500" />
                 </Link>
-                
               </div>
               {totalItems > 0 && (
                 <div className="h-4 w-4 absolute flex justify-center items-center rounded-full text-[12px] font-bold bg-white text-blue-600">
@@ -54,10 +85,13 @@ export default function Products() {
             <div>
               <CgProfile className="text-[28px] text-blue-500" />
             </div>
-               <button onClick={productLogOut} className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer">
-                  Log Out
-                </button> 
-            </div>
+            <button
+              onClick={productLogOut}
+              className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer"
+            >
+              Log Out
+            </button>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-6 px-5 py-8">

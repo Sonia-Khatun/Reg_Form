@@ -8,11 +8,11 @@ export default function Cart() {
     <>
       <div className="w-full bg-blue-200">
         
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2">  
           {cart.map((cart) => (
-            
+              
             <div
-              key={cart.id}
+              key={cart.id}    
               className="w-full flex border-gray-400 p-4 items-center gap-3"
             >
              
@@ -26,7 +26,7 @@ export default function Cart() {
                 </p>
                 <p className="line-clamp-1 text-gray-700 text-[15px]">
                   {cart.description}
-                </p>
+                </p>  
                 <div className="flex items-center gap-2 py-2">
                   <button
                     onClick={() => increaseQuantity(cart.id)}

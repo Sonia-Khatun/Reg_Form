@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
    loadCart();
-  }, [])
+  }, [user])
  
   const addToCart = async (product) => {
     if (!user) {
