@@ -13,15 +13,15 @@ export default function Products() {
   let totalItems = 0;
 
   cart.forEach((item) => {
-    totalItems = totalItems + item.quantity;
-  });
+    totalItems = totalItems + item.quantity;  
+  });   
 
   const getProducts = async () => {
     const res = await axios.get("https://fakestoreapi.com/products");
     setProducts(res.data);
   };
 
-  useEffect(() => {
+  useEffect(() => {  
     getProducts();   
   }, []);
 
@@ -44,14 +44,10 @@ export default function Products() {
     sortedProducts.sort((a,b) => b.price - a.price)
   }
   if(value === "popularity"){
-  sortedProducts.sort((a, b) => {
-  const valueA = (a.rating.count / a.rating.rate) % 100;
-  const valueB = (b.rating.count / b.rating.rate) % 100;
-  return valueB - valueA; 
+  sortedProducts.sort((a, b) => b.rating.rate - a.rating.rate)
   
-});
 }
-
+ 
   setProducts(sortedProducts)
   }
   return (

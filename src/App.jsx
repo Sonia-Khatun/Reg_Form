@@ -16,7 +16,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Register setIsLoggedIn={setIsLoggedIn} />} />
 
-        <Route
+        <Route  
           path="/products"
           element={
             isLoggedIn ? <Products /> : <Navigate to="/" replace />
