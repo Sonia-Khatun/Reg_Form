@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { FaStar, FaCartPlus } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
+import { IoLogOut } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
@@ -56,7 +57,7 @@ export default function Products() {
         <h2 className="text-white font-bold">
               PRO<span className="text-blue-600">DUCTS</span>
             </h2> 
-          <div className="flex justify-center items-center gap-5">
+          <div className="flex justify-center items-center lg:gap-5 sm:gap-5">
             <div className="">
               <select onChange={handleSort} defaultValue="" className="lg:px-5 lg:py-2 lg:text-[16px] sm:px-2 sm:py-1 sm:text-[10px] rounded-md bg-blue-500 text-white focus:outline-none font-bold">
                 <option value="" disabled>Sort by : </option>
@@ -80,12 +81,12 @@ export default function Products() {
             <div>
               <CgProfile className="text-[28px] text-blue-500" />
             </div>
-            <button
+            <div
               onClick={productLogOut}
-              className="bg-blue-500 text-white px-2 py-1.5 rounded-md font-bold cursor-pointer"
+              className=" text-blue-500 text-[28px] cursor-pointer"
             >
-              Log Out
-            </button>
+              <IoLogOut title="Logout" />
+            </div>
          
         </div>
       </div>
