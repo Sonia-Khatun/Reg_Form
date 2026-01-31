@@ -16,8 +16,9 @@ export default function Cart() {
   return (
     <>
       <div className="w-full bg-blue-200">
-        <div className="grid grid-cols-2">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2">
           {cart.map((cart) => (
+            
             <div
               key={cart.id}
               className="w-full flex border-gray-400 p-4 items-center gap-3"
@@ -47,11 +48,11 @@ export default function Cart() {
                     +
                   </button>
 
-                  {cart.quantity > 0 && (
+                  
                     <span className="w-10 h-6 flex justify-center items-center font-bold border border-blue-400">
                       {cart.quantity}
                     </span>
-                  )}
+                 
 
                   <button
                     onClick={() => decreaseQuantity(cart.id)}
@@ -75,6 +76,7 @@ export default function Cart() {
                 </button>
               </div>
             </div>
+            
           ))}
         </div>
       </div>

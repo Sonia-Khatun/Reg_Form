@@ -68,8 +68,9 @@ export const CartProvider = ({ children }) => {
     setCart(updatedIncQuantity)
   }
 
-  const decreaseQuantity = async (id) =>{
-    const updatedDecQuantity = cart.map(item => item.id === id ? {...item, quantity: item.quantity - 1} : item);
+  const decreaseQuantity = async (id) => {
+    const updatedDecQuantity = cart.map(item => item.id === id ? {...item, quantity: item.quantity - 1} : item)
+    .filter(item => item.quantity > 0);
 
     await axios.patch(`http://localhost:3000/users/${user.id}`,
       { cart: updatedDecQuantity }

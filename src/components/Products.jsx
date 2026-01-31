@@ -52,17 +52,13 @@ export default function Products() {
   }
   return (
     <div className="w-full bg-blue-300">
-      <div className="w-full bg-gray-800 px-4 py-4">
-        <div className="flex justify-between">
-          <div>
-            <h2 className="text-white font-bold">
+      <div className="w-full flex flex-wrap justify-between items-center bg-gray-800 px-4 py-4 sm:text-base">
+        <h2 className="text-white font-bold">
               PRO<span className="text-blue-600">DUCTS</span>
-            </h2>
-          </div>
-
+            </h2> 
           <div className="flex justify-center items-center gap-5">
-            <div>
-              <select onChange={handleSort} defaultValue="" className="px-5 py-2 rounded-md bg-blue-500 text-white focus:outline-none font-bold">
+            <div className="">
+              <select onChange={handleSort} defaultValue="" className="lg:px-5 lg:py-2 lg:text-[16px] sm:px-2 sm:py-1 sm:text-[10px] rounded-md bg-blue-500 text-white focus:outline-none font-bold">
                 <option value="" disabled>Sort by : </option>
                 <option value="low-high">Low to High Price</option>
                 <option value="high-low">High to low Price</option>
@@ -90,10 +86,10 @@ export default function Products() {
             >
               Log Out
             </button>
-          </div>
+         
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-6 px-5 py-8">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-5 py-8">
         {products.map((product) => (
           <div
             key={product.id}
