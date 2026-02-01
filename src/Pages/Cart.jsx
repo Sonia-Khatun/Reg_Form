@@ -15,68 +15,58 @@ export default function Cart() {
 
   return (
     <>
-      <div className="w-full bg-blue-200">
-        <div className="grid sm:grid-cols-1 lg:grid-cols-2">
+      <div className="w-full bg-blue-200 px-3 sm:px-6 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {cart.map((cart) => (
-            
             <div
               key={cart.id}
-              className="w-full flex border-gray-400 p-4 items-center gap-3"
+              className="flex flex-col sm:flex-row items-center gap-4 bg-white rounded-2xl p-4 sm:p-6"
             >
-              <div className="h-62 w-58 bg-white flex items-center justify-center rounded-2xl p-6">
-                <img src={cart.image} className="h-full" />
+              <div className="w-full sm:w-40 h-40 bg-gray-100 flex items-center justify-center rounded-xl p-4">
+                <img
+                  src={cart.image}
+                  className="h-full object-contain"
+                  alt={cart.title}
+                />
               </div>
-
-              <div className="h-62 w-120 bg-white p-12 rounded-2xl">
-                <h3 className="font-semibold text-lg line-clamp-1">
+              <div className="w-full">
+                <h3 className="font-semibold text-base sm:text-lg line-clamp-1">
                   {cart.title}
                 </h3>
-
-                <p className="text-lg font-bold text-blue-600">
+                <p className="text-lg font-bold text-blue-600 mt-1">
                   $ {cart.price}
                 </p>
-
-                <p className="line-clamp-1 text-gray-700 text-[15px]">
+                <p className="text-sm sm:text-[15px] text-gray-700 line-clamp-2 mt-1">
                   {cart.description}
                 </p>
-
-                <div className="flex items-center gap-2 py-2">
+                <div className="flex flex-wrap items-center gap-2 py-3">
                   <button
                     onClick={() => increaseQuantity(cart.id)}
-                    className="w-5 h-5 flex justify-center items-center cursor-pointer rounded-full bg-blue-300"
+                    className="w-6 h-6 flex justify-center items-center rounded-full bg-blue-300 font-bold"
                   >
                     +
                   </button>
-
-                  
-                    <span className="w-10 h-6 flex justify-center items-center font-bold border border-blue-400">
-                      {cart.quantity}
-                    </span>
-                 
-
+                  <span className="w-10 h-6 flex justify-center items-center font-bold border border-blue-400">
+                    {cart.quantity}
+                  </span>
                   <button
                     onClick={() => decreaseQuantity(cart.id)}
-                    className="w-5 h-5 flex justify-center items-center bg-blue-300 cursor-pointer rounded-full"
+                    className="w-6 h-6 flex justify-center items-center rounded-full bg-blue-300 font-bold"
                   >
                     -
                   </button>
-
-                  <div className="px-3">
-                    <button
-                      onClick={() => deleteItem(cart.id)}
-                      className="bg-blue-500 px-1.5 py-1.5 cursor-pointer rounded-md text-white font-bold"
-                    >
-                      Remove
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => deleteItem(cart.id)}
+                    className="bg-blue-500 px-3 py-1 rounded-md text-white font-bold text-sm"
+                  >
+                    Remove
+                  </button>
                 </div>
-
-                <button className="bg-blue-500 px-2 py-2 cursor-pointer font-bold text-white rounded-md mt-2">
+                <button className="w-full sm:w-auto bg-blue-500 px-4 py-2 text-white font-bold rounded-md">
                   Place Order
                 </button>
               </div>
             </div>
-            
           ))}
         </div>
       </div>

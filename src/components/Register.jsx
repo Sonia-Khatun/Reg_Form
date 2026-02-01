@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
-
 export default function Register() {
   const [formData, setformData] = useState({
     name: "",
@@ -28,7 +27,7 @@ export default function Register() {
       [name]: value,
     });
   };
-  
+
   const loginChange = (e) => {
     const { name, value } = e.target;
     setloginData({
@@ -46,20 +45,22 @@ export default function Register() {
       const res = await axios.get("http://localhost:3000/users");
       const users = res.data;
 
-     if(users.length === 0){
-      alert("No users found");
-      return;
-     }
+      if (users.length === 0) {
+        alert("No users found");
+        return;
+      }
 
-      const validUser = users.find(user =>
-       user.email === loginData.email && user.password === loginData.password
-      )
-      if(validUser){
-        localStorage.setItem("user",JSON.stringify(validUser))
+      const validUser = users.find(
+        (user) =>
+          user.email === loginData.email &&
+          user.password === loginData.password,
+      );
+      if (validUser) {
+        localStorage.setItem("user", JSON.stringify(validUser));
         alert("Login Successfull");
-         setUser(validUser);
-          navigate("/products", { replace: true });
-      }else{
+        setUser(validUser);
+        navigate("/products", { replace: true });
+      } else {
         alert("Invalid email or password");
       }
     } catch (error) {
@@ -74,12 +75,11 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-    const newUser = {
-      ...formData,
-      cart: []
-    }
-    await axios.post("http://localhost:3000/users", newUser);
+      const newUser = {
+        ...formData,
+        cart: [],
+      };
+      await axios.post("http://localhost:3000/users", newUser);
       alert("Data Saved successfully");
     } catch (error) {
       alert(error);
@@ -114,13 +114,14 @@ export default function Register() {
           <div className="flex justify-between mb-6 bg-blue-300 rounded-full">
             <button
               className={`w-1/2 py-2.5 rounded-full text-[17px] hover:bg-blue-500 hover:text-white font-bold transition duration-400 ease-in-out cursor-pointer ${
-                activeForm === "register" ? "bg-blue-600 text-white" : "text-black"
+                activeForm === "register"
+                  ? "bg-blue-600 text-white"
+                  : "text-black"
               }`}
               onClick={() => setactiveForm("register")}
             >
               Register
             </button>
-
             <button
               className={`w-1/2 py-2.5 rounded-full font-bold text-[17px] hover:bg-blue-500 hover:text-white transition duration-300 ease-in-out cursor-pointer ${
                 activeForm === "login" ? "bg-blue-600 text-white" : "text-black"
@@ -130,7 +131,6 @@ export default function Register() {
               Login
             </button>
           </div>
-
           {activeForm === "register" && (
             <form onSubmit={handleSubmit} className="space-y-4">
               <label htmlFor="" className="text-gray-800 font-bold">
@@ -181,13 +181,11 @@ export default function Register() {
                 onChange={handleChange}
                 required
               />
-
               <button className="w-full bg-blue-600 text-white py-2.5 text-[17px] cursor-pointer hover:bg-blue-500 rounded-md font-bold">
                 Register
               </button>
             </form>
           )}
-
           {activeForm === "login" && (
             <form onSubmit={handleLogin} className="space-y-4">
               <label htmlFor="" className="text-gray-800 font-bold">
