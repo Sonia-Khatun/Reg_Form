@@ -49,11 +49,11 @@ export default function Products() {
           <h2 className="text-white font-bold text-lg whitespace-nowrap">
             PRO<span className="text-blue-500">DUCTS</span>
           </h2>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center lg:gap-4 md:gap-4 gap-2">
             <select
               onChange={handleSort}
               defaultValue=""
-              className="px-3 py-2 text-sm rounded-md bg-blue-500 text-white focus:outline-none font-bold"
+              className="cursor-pointer px-3 py-2 text-sm rounded-md bg-blue-500 text-white focus:outline-none font-bold"
             >
               <option value="" disabled>
                 Sort by :
